@@ -4,6 +4,12 @@ type: docs
 weight: 6
 ---
 
+> **Note:** This page describes the legacy service-provider model where
+> providers register directly with the control plane. With the environment-agent
+> architecture, providers register with the
+> [environment agent](/docs/getting-started/architecture/) instead, and the
+> control plane manages agents. A rewrite of this guide is planned.
+
 In DCM, service providers self-register by calling the Service Provider Manager
 API. When you started the KubeVirt service provider in the
 [Local Setup](../local-setup/), it automatically registered itself. In this
@@ -58,14 +64,14 @@ rego_code: |
 
   import rego.v1
 
-  providers := ["kubevirt-service-provider", "another-kubevirt-provider"]
+  agents := ["kubevirt-service-provider", "another-kubevirt-provider"]
 
   main := {
     "rejected": false,
-    "selected_provider": providers[idx]
+    "selected_agent": agents[idx]
   }
 
-  idx := round(rand.intn("seed", count(providers)))
+  idx := round(rand.intn("seed", count(agents)))
 ```
 
 This Rego policy:
